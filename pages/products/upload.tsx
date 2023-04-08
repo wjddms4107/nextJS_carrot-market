@@ -34,10 +34,10 @@ const Upload: NextPage = () => {
 
   useEffect(() => {
     if (data?.ok) {
-      router.push(`/products/${data.product.id}`);
+      router.replace(`/products/${data.product.id}`);
     }
   }, [data, router]);
-  
+
   return (
     <Layout canGoBack title="Upload Product">
       <form className="p-4 space-y-4" onSubmit={handleSubmit(onValid)}>

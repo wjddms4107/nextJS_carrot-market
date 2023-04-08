@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 interface UseMutationState<T> {
   loading: boolean;
   data?: T;
@@ -15,8 +14,10 @@ export default function useMutation<T = any>(
     data: undefined,
     error: undefined,
   });
+
   function mutation(data: any) {
     setSate((prev) => ({ ...prev, loading: true }));
+    
     fetch(url, {
       method: "POST",
       headers: {

@@ -9,7 +9,6 @@ export default function withHandler(
   method: "GET" | "POST" | "DELETE",
   fn: (req: NextApiRequest, res: NextApiResponse) => void
 ) {
-    
   return async function (
     req: NextApiRequest,
     res: NextApiResponse
@@ -17,6 +16,7 @@ export default function withHandler(
     if (req.method !== method) {
       return res.status(405).end();
     }
+    
     try {
       await fn(req, res);
     } catch (error) {

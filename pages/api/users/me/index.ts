@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import client from "@libs/server/client";
 import { withApiSession } from "@libs/server/withSession";
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
@@ -15,6 +16,7 @@ async function handler(
       profile,
     });
   }
+
   if (req.method === "POST") {
     const {
       session: { user },
@@ -25,6 +27,7 @@ async function handler(
         id: user?.id,
       },
     });
+
     if (email && email !== currentUser?.email) {
       const alreadyExists = Boolean(
         await client.user.findUnique({
@@ -36,12 +39,14 @@ async function handler(
           },
         })
       );
+
       if (alreadyExists) {
         return res.json({
           ok: false,
           error: "Email already taken.",
         });
       }
+
       await client.user.update({
         where: {
           id: user?.id,
@@ -52,6 +57,7 @@ async function handler(
       });
       res.json({ ok: true });
     }
+
     if (phone && phone !== currentUser?.phone) {
       const alreadyExists = Boolean(
         await client.user.findUnique({
@@ -63,12 +69,14 @@ async function handler(
           },
         })
       );
+
       if (alreadyExists) {
         return res.json({
           ok: false,
           error: "Phone already in use.",
         });
       }
+
       await client.user.update({
         where: {
           id: user?.id,
@@ -79,6 +87,7 @@ async function handler(
       });
       res.json({ ok: true });
     }
+
     if (name) {
       await client.user.update({
         where: {

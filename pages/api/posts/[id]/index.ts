@@ -10,7 +10,7 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
-  
+
   const post = await client.post.findUnique({
     where: {
       id: +id!.toString() , 
@@ -35,6 +35,8 @@ async function handler(
             },
           },
         },
+        take: 10,
+        skip: 20,
       },
       _count: {
         select: {

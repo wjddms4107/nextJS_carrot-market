@@ -21,6 +21,7 @@ interface EditProfileResponse {
 
 const EditProfile: NextPage = () => {
   const { user } = useUser();
+  
   const {
     register,
     setValue,
@@ -28,13 +29,16 @@ const EditProfile: NextPage = () => {
     setError,
     formState: { errors },
   } = useForm<EditProfileForm>();
+
   useEffect(() => {
     if (user?.name) setValue("name", user.name);
     if (user?.email) setValue("email", user.email);
     if (user?.phone) setValue("phone", user.phone);
   }, [user, setValue]);
+
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
+
   const onValid = ({ email, phone, name }: EditProfileForm) => {
     if (loading) return;
     if (email === "" && phone === "" && name === "") {
@@ -48,11 +52,13 @@ const EditProfile: NextPage = () => {
       name,
     });
   };
+
   useEffect(() => {
     if (data && !data.ok && data.error) {
       setError("formErrors", { message: data.error });
     }
   }, [data, setError]);
+
   return (
     <Layout canGoBack title="Edit Profile">
       <form onSubmit={handleSubmit(onValid)} className="py-10 px-4 space-y-4">
